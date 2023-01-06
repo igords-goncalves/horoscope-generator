@@ -1,6 +1,6 @@
 # Horoscope Generator
 
-![Horoscope Generatorlayout](https://user-images.githubusercontent.com/79734585/202168251-5aa37793-8d49-4780-b229-b5f79ddd1140.png)
+![Horoscope Generator Layout](https://user-images.githubusercontent.com/79734585/211037809-b407ce54-caa3-41a3-9cee-f19cc88492a6.png)
 
 *"Everything is about know your destiny."*
 
@@ -15,6 +15,11 @@ An application that can generate you sign showing the name and symbol when you p
 It's part of my personal portifolio project bulding.
 
 It has been created as first application when I've started studying programming, after a time I started studying React so I dediced build another version of the same project using figma to build the layout, github projects and milestones to managment each phase of the project and ReactJS as a main tecnologhy.
+
+## Technologies
+
+* React
+* Styled Components
 
 # Getting Started with Create React App
 

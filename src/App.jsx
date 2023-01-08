@@ -1,13 +1,12 @@
-import styled from "styled-components";
+import GlobalStyle from "./createGlobalStyle.js";
+import { Fragment } from "react";
 
 function App() {
-    const Title = styled.h1`
-        font-size: 1.5em;
-        text-align: center;
-        color: palevioletred;
-    `;
-
-    return <Title>Hello World!</Title>;
+    return (
+        <Fragment>
+            <GlobalStyle />
+        </Fragment>
+    );
 }
 
 export default App;

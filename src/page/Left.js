@@ -8,6 +8,7 @@ const Left = styled.div`
     background-image: url(${elements});
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: left;
 `;
 
 export default Left;

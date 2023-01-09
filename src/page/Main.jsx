@@ -1,3 +1,4 @@
+import Footer from "../components/footer";
 import Image from "../components/image";
 import Title from "../components/title";
 import Left from "./Left";
@@ -11,6 +12,7 @@ export const Main = () => {
             <Left>
                 <Image />
                 <Title />
+                <Footer />
             </Left>
             <Right>
                 {/* ... */}

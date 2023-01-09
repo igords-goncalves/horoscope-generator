@@ -11,11 +11,11 @@ export const Main = () => {
         <Wrapper>
             <Left>
                 <Image />
-                <Title />
+                <Title title='Horoscope Generator' />
                 <Footer />
             </Left>
             <Right>
-                {/* ... */}
+                <Title title='Your data' />
 
             </Right>
         </Wrapper>

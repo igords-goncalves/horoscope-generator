@@ -1,7 +1,7 @@
 const Title = (props) => {
     return (
         <div>
-            <h1>Horoscope Generator</h1>
+            <h1>{props.title}</h1>
         </div>
     )
 }

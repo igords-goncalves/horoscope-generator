@@ -1,6 +1,7 @@
-import { Image } from "../components/image/Image";
+import Image from "../components/image";
 import Title from "../components/title";
 import Left from "./Left";
+
 import Right from "./Right";
 import Wrapper from "./Wrapper ";
 

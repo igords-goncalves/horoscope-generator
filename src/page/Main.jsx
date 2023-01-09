@@ -1,4 +1,5 @@
 import Footer from "../components/footer";
+import Form from "../components/form";
 import Image from "../components/image";
 import Title from "../components/title";
 import Left from "./Left";
@@ -16,7 +17,7 @@ export const Main = () => {
             </Left>
             <Right>
                 <Title title='Your data' />
-
+                <Form />
             </Right>
         </Wrapper>
     );

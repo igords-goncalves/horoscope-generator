@@ -10,6 +10,7 @@ export const Main = () => {
             </Left>
             <Right>
                 {/* ... */}
+                
             </Right>
         </Wrapper>
     );

@@ -8,6 +8,13 @@ import Left from "./Left";
 import Right from "./Right";
 import Wrapper from "./Wrapper ";
 
+
+function handlerResults(e) {
+    e.preventDefault();
+    
+    console.log('teste')
+}
+
 export const Main = () => {
     return (
         <Wrapper>
@@ -19,7 +26,7 @@ export const Main = () => {
             <Right>
                 <Title title='Your data' />
                 <Form />
-                <Button />
+                <Button callback={handlerResults}/>
             </Right>
         </Wrapper>
     );

@@ -1,3 +1,5 @@
+import Forms from "./style";
+
 const months = [
     "Jan",
     "Feb",
@@ -19,16 +21,18 @@ function getMonths(el) {
 
 const Form = () => {
     return (
-        <form action="">
+        <Forms action="">
             <select name="" id="">
                 {months.map(getMonths)}
             </select>
             <input type="number" name="days" id="day" min={1} max={31} />
-            <div>
-                <input type="checkbox" name="forgot your age?" id="checkbox" />
-                <p>Keep age hidden by default </p>
+
+            <div className="cbox">
+                <input type="checkbox" />
+                <span>Keep age hidden by default </span>
             </div>
-        </form>
+
+        </Forms>
     );
 };
 

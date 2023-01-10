@@ -1,3 +1,4 @@
+import Button from "../components/button";
 import Footer from "../components/footer";
 import Form from "../components/form";
 import Image from "../components/image";
@@ -18,6 +19,7 @@ export const Main = () => {
             <Right>
                 <Title title='Your data' />
                 <Form />
+                <Button />
             </Right>
         </Wrapper>
     );

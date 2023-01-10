@@ -13,17 +13,15 @@ const months = [
     "Dec",
 ];
 
-function getMonths(months) {
-    return months.forEach((el) => {
-        return el;
-    })
+function getMonths(el) {
+    return <option>{el}</option>;
 }
 
 const Form = () => {
     return (
         <form action="">
             <select name="" id="">
-                <option value={getMonths(months)}>{getMonths(months)}</option>
+                {months.map(getMonths)}
             </select>
             <input type="number" name="days" id="day" min={1} max={31} />
             <div>

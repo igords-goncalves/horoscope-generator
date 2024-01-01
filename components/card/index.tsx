@@ -1,7 +1,7 @@
 import parseDate from "@/util/parseDate";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import HoroscopeGenService from "@/services/HoroscopeGenService";
+import HoroscopeGenService from "@/services/HoroscopeGen.service";
 
 type Sign = {
   image: string;

@@ -9,10 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      backgroundColor: {
+        hero: '#5E42E2',
+        card: '#F9FAFB',
+        primary: '#42E25E'
+      },
+      colors: {
+        light: '#F9FAFB',
+        dark: '#333333'
+      }
     },
   },
   plugins: [],

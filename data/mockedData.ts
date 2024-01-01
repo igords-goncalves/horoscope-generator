@@ -94,8 +94,8 @@ const signs: SignModel[] = [
     "Pisces",
     "Empathetic and imaginative, the Fish.",
     "https://imgur.com/gallery/oWeAMW2",
-    2219,
-    2320
+    20240116,
+    20240130
   ),
 ];
 

@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import HttpService from "./HttpService";
+import HttpService from "./Http.service";
 import "dotenv/config"
 
 const BASE_API_URL = process.env.BASE_URL || ""

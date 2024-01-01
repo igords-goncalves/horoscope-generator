@@ -27,6 +27,7 @@ export default function handler(
       res.status(204).end()
     }
   } catch (error) {
+    res.status(404).json({message: "bad request"})
     console.error(error)
   }
 }

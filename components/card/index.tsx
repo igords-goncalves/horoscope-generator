@@ -51,7 +51,7 @@ export default function Card() {
   }
 
   return (
-    <div className="mr-5 ml-5 card flex flex-col items-center bg-card h-screen w-full max-w-[470px] max-h-[544px] rounded-3xl px-5 sm:px-16 pt-8 gap-4">
+    <div data-testid='card-testid' className="mr-5 ml-5 card flex flex-col items-center bg-card h-screen w-full max-w-[470px] max-h-[544px] rounded-3xl px-5 sm:px-16 pt-8 gap-4">
       <div className="image flex items-center justify-center w-full max-w-[150px] max-h-[150px] h-full">
         {date ? (
           <ImageSign sign={sign} isLoading={isLoading} />

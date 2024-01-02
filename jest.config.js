@@ -9,6 +9,7 @@ const config = {
   coverageProvider: "v8",
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: "jsdom",
+  preset: 'ts-jest',
 };
 
 module.exports = creatJestConfig(config);

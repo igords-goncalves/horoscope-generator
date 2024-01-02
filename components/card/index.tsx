@@ -6,6 +6,7 @@ import Image from "next/image";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { Button, Spinner } from "@nextui-org/react";
 import vercel from "../../public/next.svg";
+import ImageSign from "../image";
 
 type Sign = {
   image: string | StaticImport;
@@ -49,26 +50,14 @@ export default function Card() {
     }
   }
 
-  function renderImage() {
-    return isLoading ? (
-      <Spinner size="lg" label="Loading sign" color="secondary" />
-    ) : (
-      <Image
-        // TODO: Add a default image here
-        src={`${sign ? sign?.image : ""}`}
-        alt="Aquarius Sign"
-        width={0}
-        height={0}
-        sizes="100vw"
-        style={{ width: "auto", height: "auto" }}
-      />
-    );
-  }
-
   return (
     <div className="mr-5 ml-5 card flex flex-col items-center bg-card h-screen w-full max-w-[470px] max-h-[544px] rounded-3xl px-5 sm:px-16 pt-8 gap-4">
       <div className="image flex items-center justify-center w-full max-w-[150px] max-h-[150px] h-full">
-        {date ? renderImage() : <Image src={vercel} alt="Vercel"></Image>}
+        {date ? (
+          <ImageSign sign={sign} isLoading={isLoading} />
+        ) : (
+          <Image src={vercel} alt="Vercel"></Image>
+        )}
       </div>
       <div className="title flex w-full flex-col text-center items-center gap-6 text-dark">
         <h1 className="font-[700] text-[2rem]">

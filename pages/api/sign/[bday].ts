@@ -15,7 +15,7 @@ export default function handler(
 
   const signMonthInterval = signs.filter(sign => {
     const interval = 
-       bday >= sign.initialDate && bday <= sign.finalDate 
+      bday >= sign.initialDate && bday <= sign.finalDate 
     return interval
   })
 

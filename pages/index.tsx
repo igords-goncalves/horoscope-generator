@@ -7,12 +7,10 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <NextUIProvider>
       <main
         className={`flex bg-hero min-h-screen w-full items-center justify-center ${inter.className}`}
       >
         <Card />
       </main>
-    </NextUIProvider>
   );
 }

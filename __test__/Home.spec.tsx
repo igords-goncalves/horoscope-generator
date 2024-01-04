@@ -6,10 +6,10 @@ describe("Page", () => {
     render(<Home />);
   });
 
-  it("should contains a main HTMLElement", () => {
+  it("should contain a <main> element", () => {
     render(<Home />);
 
-    const bodyElement = screen.getByRole('main')
+    const bodyElement = screen.getByTestId('main-testid')
     expect(bodyElement).toBeInTheDocument();
   });
 

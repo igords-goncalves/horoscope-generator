@@ -6,6 +6,6 @@ describe('Card', () => {
     render(<Card />);
 
     const cardComponent = screen.getByTestId('card-testid')
-    expect(cardComponent).toBeInTheDocument()
+    expect(cardComponent).toBeInTheDocument
   })
 })

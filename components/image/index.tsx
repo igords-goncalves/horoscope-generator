@@ -14,16 +14,19 @@ type ImageSign = {
 }
 
 export default function ImageSign({isLoading, sign}: ImageSign) {
+  const image = sign?.image
+
   return isLoading ? (
     <Spinner size="lg" label="Loading sign" color="secondary" />
   ) : (
     <Image
-      src={`${sign ? sign?.image : ""}`}
-      alt="Aquarius Sign"
+      src={`${image || ""}`}
+      alt="Sign Image"
       width={0}
       height={0}
       sizes="100vw"
       style={{ width: "auto", height: "auto" }}
+      priority
     />
   );
 };

@@ -18,7 +18,8 @@ describe("Image", () => {
     expect(imageComponent).toBeInTheDocument();
   });
 
-  it("should render spinner animation when isLoading is true", () => {
+  it("should render spinner animation when isLoading is truthy", 
+  () => {
     const fakeSign = {
       image: "fake-image-url",
       title: "Fake Sign",

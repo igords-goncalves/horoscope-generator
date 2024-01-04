@@ -9,14 +9,14 @@ describe("Page", () => {
   it("should contain a <main> element", () => {
     render(<Home />);
 
-    const bodyElement = screen.getByTestId('main-testid')
+    const bodyElement = screen.getByTestId("main-testid");
     expect(bodyElement).toBeInTheDocument();
   });
 
   it("should render a component Card", () => {
     render(<Home />);
 
-    const cardComponent = screen.getByTestId('card-testid')
+    const cardComponent = screen.getByTestId("card-testid");
     expect(cardComponent).toBeInTheDocument();
-  })
+  });
 });

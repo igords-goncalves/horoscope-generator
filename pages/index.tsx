@@ -1,6 +1,5 @@
 import Card from "@/components/card";
-import { NextUIProvider } from "@nextui-org/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });

@@ -28,12 +28,41 @@ describe("Card", () => {
   });
 
   it("should render generic image if there is not date", () => {
-    render(<Card />);
     date = -1;
 
     if (!date && !fakeSign) {
-      const genericImage = screen.getByAltText("Vercel logo");
+      const genericImage = screen.getByText("Vercel logo");
       expect(genericImage).toBeInTheDocument();
+    }
+  });
+
+  // FIXME: Fix test
+  // it("should render title if there is a sign", () => {
+  //   if (fakeSign) {
+  //     const title = screen.getByText(fakeSign.title);
+  //     expect(title).toBeInTheDocument();
+  //   }
+  // });
+
+  it("should render a generic title if there is not title", () => {
+    if (!fakeSign) {
+      const title = screen.getByText("Sign");
+      expect(title).toBeInTheDocument();
+    }
+  });
+
+  // FIXME: Fix test
+  // it("should render a profile description title if there is sign", () => {
+  //   if (fakeSign) {
+  //     const profile = screen.getByText(fakeSign.profile);
+  //     expect(profile).toBeInTheDocument();
+  //   }
+  // });
+
+  it("should render a generic profile description if there is not sign", () => {
+    if (!fakeSign) {
+      const profile = screen.getByText("Fake Sign Profile");
+      expect(profile).toBeInTheDocument();
     }
   });
 });

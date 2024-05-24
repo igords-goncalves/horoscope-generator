@@ -1,8 +1,10 @@
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+
 export default class SignModel {
   #id: number;
   #title: string;
   #profile: string;
-  #image: string;
+  #image: string | StaticImport;
   #initalDate: number;
   #finalDate: number;
 
@@ -34,7 +36,7 @@ export default class SignModel {
     return this.#profile;
   }
 
-  get image(): string {
+  get image(): string | StaticImport {
     return this.#image;
   }
 

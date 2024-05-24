@@ -2,7 +2,8 @@ import ImageSign from "@/components/image";
 import { render, screen } from "@testing-library/react";
 
 describe("Image", () => {
-  it("should render image when isLoading property is falsy", 
+  // [x]: Isso testa comportamento e sinal desse comportamento é através do isLoading.
+  it("should render image when is not an event triggered by the user", 
   () => {
     const fakeSign = {
       image: `https://gist.githack.com/igords-goncalves/70da3b23
@@ -18,7 +19,7 @@ describe("Image", () => {
     expect(imageComponent).toBeInTheDocument();
   });
 
-  it("should render spinner animation when isLoading is truthy", 
+  it("should render spinner animation after an event triggered by the user", 
   () => {
     const fakeSign = {
       image: "fake-image-url",
@@ -26,6 +27,8 @@ describe("Image", () => {
       profile: "Fake Sign Profile",
     };
     render(<ImageSign isLoading={true} sign={fakeSign} />);
+
+    //TODO: Seria necessário um botão para disparar o evento de click simulando a ação do usuário e um loading.
 
     const spinnerComponent = screen.getByLabelText("Loading sign");
     expect(spinnerComponent).toBeInTheDocument();

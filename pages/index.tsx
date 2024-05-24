@@ -1,16 +1,24 @@
-import Card from "@/components/card";
+import Card from "@/components/Card";
+import IsLoadingProvider from "@/context/IsLoadingProvider";
 
 import { Inter } from "next/font/google";
+import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+const Home = (): JSX.Element => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   return (
-      <main
-        data-testid="main-testid"
-        className={`flex bg-hero min-h-screen w-full items-center justify-center ${inter.className}`}
-      >
+    <main
+      data-testid="main-testid"
+      className={`flex bg-hero min-h-screen w-full items-center justify-center ${inter.className}`}
+    >
+      <IsLoadingProvider data={{isLoading, setIsLoading}}>
         <Card />
-      </main>
+      </IsLoadingProvider>
+    </main>
   );
 }
+
+export default Home;

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import signs from "@/components/ui/data/mockedData";
+import signs from "@/data/mockedData";
 import SignModel from "@/models/Sign.model";
 
 type Data = {

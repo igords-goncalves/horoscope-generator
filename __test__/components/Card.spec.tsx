@@ -1,5 +1,7 @@
-import Card from "@/components/card";
+import Card from "@/components/Card";
 import { render, screen } from "@testing-library/react";
+
+//TIP: O componente card está mais voltado para teste de integração.
 
 describe("Card", () => {
   let date = 1222;
@@ -18,6 +20,7 @@ describe("Card", () => {
     expect(cardComponent).toBeInTheDocument();
   });
 
+  
   it("should render sign image if there is date", () => {
     render(<Card />);
 
@@ -36,28 +39,12 @@ describe("Card", () => {
     }
   });
 
-  // FIXME: Fix test
-  // it("should render title if there is a sign", () => {
-  //   if (fakeSign) {
-  //     const title = screen.getByText(fakeSign.title);
-  //     expect(title).toBeInTheDocument();
-  //   }
-  // });
-
   it("should render a generic title if there is not title", () => {
     if (!fakeSign) {
       const title = screen.getByText("Sign");
       expect(title).toBeInTheDocument();
     }
   });
-
-  // FIXME: Fix test
-  // it("should render a profile description title if there is sign", () => {
-  //   if (fakeSign) {
-  //     const profile = screen.getByText(fakeSign.profile);
-  //     expect(profile).toBeInTheDocument();
-  //   }
-  // });
 
   it("should render a generic profile description if there is not sign", () => {
     if (!fakeSign) {

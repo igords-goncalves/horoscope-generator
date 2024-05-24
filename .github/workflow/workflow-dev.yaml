@@ -1,0 +1,16 @@
+# https://docs.github.com/en/actions/quickstart
+name: Continuos Integration - Dev
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [pull_request]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        uses: actions/setup-node@v2
+        if: node-version: 20.
+      - name: Install dependencies
+        run: npm install
+        run: npm build
+        run: npm test

@@ -1,5 +1,5 @@
 # https://docs.github.com/en/actions/quickstart
-name: Continuos Integration - Dev
+name: Continuous integration
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [pull_request]
 jobs:
@@ -9,8 +9,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
         uses: actions/setup-node@v2
-        if: node-version: 20.
       - name: Install dependencies
+        if: node-version: 20.
         run: npm install
         run: npm build
         run: npm test

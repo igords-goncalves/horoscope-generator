@@ -25,6 +25,7 @@ const Input = ({ type, register, label, errors, errorMessage }: InputProps) => {
       )}
     </div>
   );
+  
 };
 
 export default Input;

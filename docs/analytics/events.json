@@ -1,0 +1,153 @@
+{
+  "events": [
+    {
+      "name": "Date Selected",
+      "description": "usuário seleciona uma data no formulário",
+      "payloadSchema": {
+        "input_method": "'date-picker' | 'manual'",
+        "value": "string (YYYY-MM-DD)",
+        "timestamp": "string (ISO-8601)",
+        "env": "\"dev\" | \"staging\" | \"prod\"",
+        "app_version": "string (semver)"
+      },
+      "example": {
+        "event": "Date Selected",
+        "payload": {
+          "input_method": "date-picker",
+          "value": "1990-04-15",
+          "timestamp": "2025-11-09T12:34:56.000Z",
+          "env": "prod",
+          "app_version": "1.2.3"
+        }
+      }
+    },
+    {
+      "name": "Generate Clicked",
+      "description": "usuário clica no botão que dispara a geração do signo",
+      "payloadSchema": {
+        "timestamp": "string (ISO-8601)",
+        "latency_ms": "number (opcional)",
+        "env": "\"dev\" | \"staging\" | \"prod\"",
+        "app_version": "string (semver)"
+      },
+      "example": {
+        "event": "click_generate",
+        "payload": {
+          "timestamp": "2025-11-09T12:35:00.000Z",
+          "latency_ms": 120,
+          "env": "prod",
+          "app_version": "1.2.3"
+        }
+      }
+    },
+    {
+      "name": "Sign Viewed",
+      "description": "o signo gerado é exibido ao usuário",
+      "payloadSchema": {
+        "sign": "string (ex: 'Aries')",
+        "generation_time_ms": "number (opcional)",
+        "source": "'client' | 'server'",
+        "timestamp": "string (ISO-8601)",
+        "env": "\"dev\" | \"staging\" | \"prod\"",
+        "app_version": "string (semver)"
+      },
+      "example": {
+        "event": "sign_view",
+        "payload": {
+          "sign": "Aries",
+          "generation_time_ms": 180,
+          "source": "client",
+          "timestamp": "2025-11-09T12:35:01.800Z",
+          "env": "prod",
+          "app_version": "1.2.3"
+        }
+      }
+    },
+    {
+      "name": "Share Attempted",
+      "description": "usuário tenta compartilhar o resultado (qualquer canal)",
+      "payloadSchema": {
+        "channel": "'twitter' | 'whatsapp' | 'copy' | 'other'",
+        "sign": "string",
+        "timestamp": "string (ISO-8601)",
+        "env": "\"dev\" | \"staging\" | \"prod\"",
+        "app_version": "string (semver)"
+      },
+      "example": {
+        "event": "share",
+        "payload": {
+          "channel": "whatsapp",
+          "sign": "Aries",
+          "timestamp": "2025-11-09T12:36:00.000Z",
+          "env": "prod",
+          "app_version": "1.2.3"
+        }
+      }
+    },
+    {
+      "name": "Error Occurred",
+      "description": "erro na geração ou validação de data",
+      "payloadSchema": {
+        "stage": "'validation' | 'generation' | 'network'",
+        "message": "string (mensagem tratada — evitar PII)",
+        "code": "string (opcional)",
+        "timestamp": "string (ISO-8601)",
+        "env": "\"dev\" | \"staging\" | \"prod\"",
+        "app_version": "string (semver)"
+      },
+      "example": {
+        "event": "error",
+        "payload": {
+          "stage": "validation",
+          "message": "invalid_date_format",
+          "code": "INVALID_INPUT",
+          "timestamp": "2025-11-09T12:37:00.000Z",
+          "env": "prod",
+          "app_version": "1.2.3"
+        }
+      }
+    },
+    {
+      "name": "Page Viewed",
+      "description": "visualização de página (padrão para GA4)",
+      "payloadSchema": {
+        "path": "string",
+        "title": "string",
+        "timestamp": "string (ISO-8601)",
+        "env": "\"dev\" | \"staging\" | \"prod\"",
+        "app_version": "string (semver)"
+      },
+      "example": {
+        "event": "page_view",
+        "payload": {
+          "path": "/",
+          "title": "Home",
+          "timestamp": "2025-11-09T12:30:00.000Z",
+          "env": "prod",
+          "app_version": "1.2.3"
+        }
+      }
+    },
+    {
+      "name": "Identify",
+      "description": "quando há intenção de identificar usuário (ex.: opt-in) — evitar PII",
+      "payloadSchema": {
+        "user_id": "string (opcional, anon_id recomendado)",
+        "consent": "boolean",
+        "timestamp": "string (ISO-8601)",
+        "env": "\"dev\" | \"staging\" | \"prod\"",
+        "app_version": "string (semver)"
+      },
+      "example": {
+        "event": "identify",
+        "payload": {
+          "user_id": "anon_1234",
+          "consent": true,
+          "timestamp": "2025-11-09T12:40:00.000Z",
+          "env": "prod",
+          "app_version": "1.2.3"
+        }
+      }
+    }
+  ]
+}

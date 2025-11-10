@@ -1,50 +1,15 @@
 ## Analytics — notas e plano de implementação - v1.0.0
 
-Este documento reúne o plano de instrumentação para Amplitude, GA4 (via GTM) e Hotjar, cobrindo eventos, contratos (propriedades), arquivos a serem criados, testes e requisitos de privacidade/consentimento.
+Este documento reúne o plano de instrumentação e criação de dados para Amplitude, GA4 (via GTM) e Hotjar, cobrindo eventos, contratos (propriedades), arquivos a serem criados, testes e requisitos de privacidade/consentimento do usuário.
 
-### Objetivos de alto nível
+### Objetivos de alto nível (O que será medido)
 
 - Medir conversão (usuário gera um signo), engajamento (visualizações, tempo), e erros.
 - Suportar experimentos e funis (date -> generate -> sign_view -> share).
 - Garantir conformidade com privacidade (opt-in/out) e evitar PII.
 
-### Catálogo canônico de eventos (sugestão inicial)
-
-- event: select_date
-    - descrição: usuário seleciona uma data no formulário
-    - propriedades sugeridas: { input_method: 'date-picker' | 'manual', value: 'YYYY-MM-DD' }
-
-- event: click_generate
-    - descrição: usuário clica no botão que dispara a geração do signo
-    - propriedades sugeridas: { timestamp, latency_ms? }
-
-- event: sign_view
-    - descrição: o signo gerado é exibido ao usuário
-    - propriedades sugeridas: { sign: 'Aries', generation_time_ms, source: 'client' }
-
-- event: share
-    - descrição: usuário tenta compartilhar o resultado (qualquer canal)
-    - propriedades sugeridas: { channel: 'twitter'|'whatsapp'|'copy', sign }
-
-- event: error
-    - descrição: erro na geração ou validação de data
-    - propriedades sugeridas: { stage: 'validation'|'generation'|'network', message: 'string', code?: 'string' }
-
-- event: page_view
-    - descrição: visualização de página (padrão para GA4)
-    - propriedades sugeridas: { path, title }
-
-- event: identify
-    - descrição: quando há intenção de identificar usuário (ex.: opt-in) — evitar PII
-    - propriedades sugeridas: { user_id?: anon_id }
-
-### Contrato mínimo (boilerplate de propriedades)
-- timestamp: ISO-8601
-- env: 'dev'|'staging'|'prod' (use NEXT_PUBLIC_ENV)
-- app_version: semver
-
-### Arquitetura proposta (arquivos e responsabilidades)
-- `service/AmplitudeInitializer.ts` — inicialização do SDK Amplitude e método de tracking default.
+### Arquitetura proposta (arquivos e responsabilidades [Instrumentação e Q&A])
+- `service/AmplitudeInitializer.ts` — inicialização do SDK Amplitude.
 
 | Arquivo | Responsabilidade |
 |---|---|
@@ -58,6 +23,7 @@ Este documento reúne o plano de instrumentação para Amplitude, GA4 (via GTM) 
     - NEXT_PUBLIC_AMPLITUDE_API_KEY=
     - NEXT_PUBLIC_GTM_ID=
     - NEXT_PUBLIC_HOTJAR_ID=
+    - NEXT_PUBLIC_APP_VERSION=
     - NEXT_PUBLIC_ENV=development|staging|production
 
 ## Integração com GTM / dataLayer
@@ -93,7 +59,7 @@ Este documento reúne o plano de instrumentação para Amplitude, GA4 (via GTM) 
 ## Checklist rápida (marque conforme avançar)
 
 - [x] SDK do Amplitude configurado e testado
-- [ ] Criar wrapper `services/Analytics.service.ts`
+- [x] Criar wrapper `services/Analytics.service.ts`
 - [ ] Criar tipos `types/analytics.ts` e catálogo `docs/analytics/events.md`
 - [ ] Instrumentar componentes principais (`pages/index.tsx`, `components/Form.tsx`, `Card.tsx`, `Toggle*`)
 - [ ] Implementar dataLayer pushes e configurar GTM container (dev)

@@ -65,7 +65,7 @@ Toda API de consulta dos signos foi feita dentro do próprio front-end, sem nece
 
 ## Modelo de dados (mockup)
 
-Produtos:
+Signos:
 
 ```json
 

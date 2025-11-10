@@ -42,7 +42,7 @@ export default class AmplitudeInitializerService {
         if (this.isClientEnvironment()) {
             if (!this.clientKey) {
                 console.error(
-                    "Amplitude API key is missing. Please set AMPLITUDE_API_KEY in your environment variables."
+                    "Amplitude API key is missing. Please set NEXT_PUBLIC_AMPLITUDE_API_KEY in your environment variables."
                 );
                 return;
             }
@@ -70,24 +70,30 @@ export default class AmplitudeInitializerService {
             }
         }
 
-        if (!this.serverKey) {
-            console.error(
-                "Amplitude Server API key is missing. Please set AMPLITUDE_API_KEY in your environment variables."
-            );
-            return;
-        }
-        try {
-            await amplitudeNode.init(this.serverKey, {
-                instanceName: "server",
-            }).promise;
+        /**
+         * Só vai cair nessa condição se estiver no server side
+         * Adiciona robustez para verificação de ambientes
+         */
+        if (!this.isClientEnvironment()) {
+            if (!this.serverKey) {
+                console.error(
+                    "Amplitude Server API key is missing. Please set AMPLITUDE_API_KEY in your environment variables."
+                );
+                return;
+            }
+            try {
+                await amplitudeNode.init(this.serverKey, {
+                    instanceName: "server",
+                }).promise;
 
-            this.initialized = true;
-            console.info("Amplitude initialized (server)");
-        } catch (error) {
-            console.error("Failed to initialize Amplitude:", error);
-            throw new Error(
-                "Amplitude initialization failed: " + (error as Error).message
-            );
+                this.initialized = true;
+                console.info("Amplitude initialized (server)");
+            } catch (error) {
+                console.error("Failed to initialize Amplitude (server):", error);
+                throw new Error(
+                    "Amplitude initialization failed: " + (error as Error).message
+                );
+            }
         }
     }
 

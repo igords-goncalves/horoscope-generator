@@ -13,7 +13,7 @@ export default class AnalyticsService {
         process.env.NEXT_PUBLIC_APP_VERSION || "unknown";
 
     private constructor() {
-        this.enabled = false; // controla consentimento
+        this.enabled = false; // controla consentimento do usuário
     }
 
     static getInstance(): AnalyticsService {
@@ -26,7 +26,9 @@ export default class AnalyticsService {
     /**
      * Chamado quando o usuário opta pelo tracking
      * isso vai servir para GDPR e outras regulações de privacidade
-     * pode ser chamado quando o usuário aceitar cookies, por exemplo.
+     * em produção pode ser chamado quando o usuário aceitar 
+     * cookies, por exemplo. Em ambiente de desenvolvimento
+     * pode ser chamado automaticamente com valor = true
      * 
      * @returns {Promise<void>}
      */
@@ -41,9 +43,9 @@ export default class AnalyticsService {
         }
     }
 
-    // Chamado quando o usuário opta por não rastrear
+
     disable(): void {
-        this.enabled = false;
+        this.enabled = false; // O usuário não consentiu com o tracking
     }
 
     /**
@@ -76,12 +78,12 @@ export default class AnalyticsService {
      * Registra um evento de analytics enriquecendo propriedades, enviando para a dataLayer
      * e encaminhando o evento para o SDK Amplitude apropriado (browser ou node).
      *
-     * - Detecta o ambiente de execução:
-     *   - No navegador (typeof window !== "undefined"): importa dinamicamente
-     *     "@amplitude/analytics-browser" e invoca seu track(name, properties).
-     *   - Em servidor/node: importa dinamicamente
-     *     "@amplitude/analytics-node" e invoca seu track(payload) com
-     *     { event_type, event_properties }.
+     * Detecta o ambiente de execução:
+     *  - No navegador (typeof window !== "undefined"): importa dinamicamente
+     *    "@amplitude/analytics-browser" e invoca seu track(name, properties).
+     *  - Em servidor/node: importa dinamicamente
+     *    "@amplitude/analytics-node" e invoca seu track(payload) com
+     *    { event_type, event_properties }.
      */
     async trackEvent(name: string, props: EventProps = {}): Promise<void> {
         if (!this.enabled) return;

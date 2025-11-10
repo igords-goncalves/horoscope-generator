@@ -54,6 +54,7 @@ export default class AmplitudeInitializerService {
                         pageViews: false,
                         formInteractions: false,
                         elementInteractions: false,
+                        sessions: false,
                     },
                     appVersion: process.env.NEXT_PUBLIC_APP_VERSION || "unknown",
                 }).promise;

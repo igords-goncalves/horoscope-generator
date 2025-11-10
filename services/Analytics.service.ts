@@ -1,5 +1,7 @@
 import AmplitudeInitializerService from "./AmplitudeInitializer.service";
 import * as amplitude from '@amplitude/analytics-browser';
+import { EVENTS } from '@/constants/events';
+import type { EventKey, EventPayload } from "@/types/events";
 
 type EventProps = Record<string, any>;
 
@@ -44,7 +46,6 @@ export default class AnalyticsService {
         }
     }
 
-
     disable(): void {
         this.enabled = false; // O usuário não consentiu com o tracking
     }
@@ -57,8 +58,7 @@ export default class AnalyticsService {
     private enrichProps(props: EventProps = {}): EventProps {
         return {
             timestamp: new Date().toISOString(),
-            env: this.env,
-            mod: typeof window !== "undefined" ? "client" : "server",
+            environment: this.env,
             app_version: this.appVersion,
             ...props,
         };
@@ -79,19 +79,45 @@ export default class AnalyticsService {
      * Registra um evento de analytics enriquecendo propriedades, enviando para a dataLayer
      * e encaminhando o evento para o SDK Amplitude apropriado.
      */
-    async trackEvent(name: string, props: EventProps = {}): Promise<void> {
+    async trackEvent(nameOrKey: string, props: EventProps = {}): Promise<void> {
         if (!this.enabled) return;
 
+        // resolve name a partir do catálogo EVENTS quando aplicável
+        const resolvedName = (EVENTS as any)[nameOrKey]?.name ?? nameOrKey;
+
         const enriched = this.enrichProps(props);
-        this.pushToDataLayer(name, enriched);
+        this.pushToDataLayer(resolvedName, enriched);
 
         try {
             if (!this.amplitudeInitializer.isInitialized()) {
                 await this.amplitudeInitializer.init();
             }
-            amplitude.track(name, enriched);
+            amplitude.track(resolvedName, enriched);
         } catch (err) {
             console.error("trackEvent failed:", err);
+        }
+    }
+
+    /**
+     * Versão tipada do trackEvent que aceita chaves do catálogo (EventKey)
+     * e garante o shape do payload via EventPayload<K>. Use a versão mais
+     * simples por default, a menos que precise de tipagem forte.
+     */
+    async trackEventKey<K extends EventKey>(key: K, props: EventPayload<K> = {} as EventPayload<K>): Promise<void> {
+        if (!this.enabled) return;
+
+        const resolvedName = (EVENTS as any)[key]?.name ?? (key as string);
+        
+        const enriched = this.enrichProps(props as Record<string, any>);
+        this.pushToDataLayer(resolvedName, enriched);
+
+        try {
+            if (!this.amplitudeInitializer.isInitialized()) {
+                await this.amplitudeInitializer.init();
+            }
+            amplitude.track(resolvedName, enriched);
+        } catch (err) {
+            console.error("trackEventKey failed:", err);
         }
     }
 

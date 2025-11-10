@@ -1,9 +1,31 @@
 import "@/styles/globals.css";
+
 import { NextUIProvider } from "@nextui-org/react";
 import type { AppProps } from "next/app";
 import Script from "next/script";
+import { useEffect } from "react";
+import AnalyticsService from "@/services/Analytics.service";
 
 export default function App({ Component, pageProps }: AppProps) {
+  
+  /**
+   * Inicializa o Amplitude assim que a aplicação carrega
+   * isso garante que o Amplitude esteja pronto, é preciso
+   * definior o enable() quando o usuário der consentimento.
+   * 
+   * Em produção implemente apenas depois do consentimento
+   * do usuário, para respeitar GDPR e outras regulações de privacidade.
+   */
+  useEffect(() => {
+    if(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY) {
+      AnalyticsService.getInstance().enable().catch((err) => {
+        console.error("Failed to enable analytics:", err);
+      });
+    } else {
+      console.warn("Amplitude API key is missing. Analytics will be disabled.");
+    }
+  }, []);
+
   return (
     <NextUIProvider>
       <Component {...pageProps} />

@@ -10,9 +10,9 @@ const ToggleTitle = ({sign}: ToggleTitleProps) => {
         <h1 className="font-[700] text-[2rem]">
           {sign ? sign?.title : "Sign"}
         </h1>
-        <p className="text-base h-[56px]">
+        <h2 className="text-base h-[56px]">
           {sign ? sign?.profile : "Short profile sign description"}
-        </p>
+        </h2>
       </div>
   )
 };

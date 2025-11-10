@@ -10,11 +10,14 @@ import Input from "./common/Input";
 import ToggleTitle from "./ToggleTitle";
 import ToggleImage from "./ToggleImage";
 import AnalyticsService from "@/services/Analytics.service";
+import { EVENTS } from '@/constants/events';
 
 const Card = (): JSX.Element => {
   const [date, setDate] = useState<number>();
   const [sign, setSign] = useState<SignModel>();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [requestStart, setRequestStart] = useState<number>(0);
+  const [latencyMs, setLatencyMs] = useState<number>(0);
   const { isLoading, setIsLoading } = useIsLoadingData();
 
   const horoscopeGenService = new HoroscopeGenService();
@@ -34,7 +37,8 @@ const Card = (): JSX.Element => {
 
   async function fetchData() {
     try {
-      setIsLoading(true); // Set isLoading to true before making the API call
+      setRequestStart(Date.now());
+      setIsLoading(true);
       setIsDisabled(true);
       const response = await horoscopeGenService.get(`/api/sign/${date}`);
       const data = await response.data;
@@ -45,13 +49,20 @@ const Card = (): JSX.Element => {
     } finally {
       setIsDisabled(false);
       setIsLoading(false); // Set isLoading to false after receiving the response
+
+      setLatencyMs(Date.now() - requestStart);
     }
   }
 
-  const amplitude = AnalyticsService.getInstance();
+  const amplitude = AnalyticsService.getInstance(); 
 
   const handleAmplitudeTracking = () => {
-    amplitude.trackEvent("Button Generate Clicked", { date: date || null, sign: sign?.title || null });
+    const eventProps = {
+      [EVENTS.GENERATE_CLICKED.props.LATENCY_MS]: latencyMs,
+    }
+
+    amplitude.trackEvent(EVENTS.GENERATE_CLICKED.name, eventProps); 
+    // amplitude.trackEventKey("GENERATE_CLICKED", eventProps); 
   }
 
   return (

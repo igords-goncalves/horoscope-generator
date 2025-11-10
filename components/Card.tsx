@@ -9,13 +9,8 @@ import Form from "./common/Form";
 import Input from "./common/Input";
 import ToggleTitle from "./ToggleTitle";
 import ToggleImage from "./ToggleImage";
+import AnalyticsService from "@/services/Analytics.service";
 
-/**
- * Esse componente é responsável por renderizar a imagem e o título do signo
- * além de um formulário para o usuário inserir a data de nascimento
- *
- * @returns {JSX.Element} Card component
- */
 const Card = (): JSX.Element => {
   const [date, setDate] = useState<number>();
   const [sign, setSign] = useState<SignModel>();
@@ -53,8 +48,14 @@ const Card = (): JSX.Element => {
     }
   }
 
+  const amplitude = AnalyticsService.getInstance();
+
+  const handleAmplitudeTracking = () => {
+    amplitude.trackEvent("Button Generate Clicked", { date: date || null, sign: sign?.title || null });
+  }
+
   return (
-    <div
+    <section
       data-testid="card-testid"
       className="mr-5 ml-5 card flex flex-col items-center bg-card h-screen pb-10 w-full max-w-[470px] max-h-[544px] rounded-3xl px-5 sm:px-16 pt-8 gap-4"
     >
@@ -75,11 +76,12 @@ const Card = (): JSX.Element => {
           isLoading={isLoading}
           type="submit"
           className="bg-primary w-full text-light h-[56px] text-2xl "
+          onClick={handleAmplitudeTracking}
         >
           Generate
         </Button>
       </Form>
-    </div>
+    </section>
   );
 }
 

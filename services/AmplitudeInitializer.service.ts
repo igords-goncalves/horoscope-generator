@@ -1,16 +1,13 @@
-import * as amplitudeBrowser from "@amplitude/analytics-browser";
-import * as amplitudeNode from "@amplitude/analytics-node";
+import * as amplitude from "@amplitude/analytics-browser";
 
 export default class AmplitudeInitializerService {
     private static instance: AmplitudeInitializerService;
     private initialized: boolean;
     private clientKey?: string;
-    private serverKey?: string;
 
     public constructor() {
         this.initialized = false;
         this.clientKey = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY;
-        this.serverKey = process.env.AMPLITUDE_API_KEY;
     }
 
     /**
@@ -52,7 +49,7 @@ export default class AmplitudeInitializerService {
                  * Retorna um objeto com a propriedade "promise",
                  * que já é resolvido quando a inicialização estiver completa
                  */
-                await amplitudeBrowser.init(this.clientKey, {
+                await amplitude.init(this.clientKey, {
                     autocapture: {
                         pageViews: false,
                         formInteractions: false,
@@ -64,32 +61,6 @@ export default class AmplitudeInitializerService {
                 console.info("Amplitude initialized (browser)");
             } catch (error) {
                 console.error("Failed to initialize Amplitude (browser):", error);
-                throw new Error(
-                    "Amplitude initialization failed: " + (error as Error).message
-                );
-            }
-        }
-
-        /**
-         * Só vai cair nessa condição se estiver no server side
-         * Adiciona robustez para verificação de ambientes
-         */
-        if (!this.isClientEnvironment()) {
-            if (!this.serverKey) {
-                console.error(
-                    "Amplitude Server API key is missing. Please set AMPLITUDE_API_KEY in your environment variables."
-                );
-                return;
-            }
-            try {
-                await amplitudeNode.init(this.serverKey, {
-                    instanceName: "server",
-                }).promise;
-
-                this.initialized = true;
-                console.info("Amplitude initialized (server)");
-            } catch (error) {
-                console.error("Failed to initialize Amplitude (server):", error);
                 throw new Error(
                     "Amplitude initialization failed: " + (error as Error).message
                 );

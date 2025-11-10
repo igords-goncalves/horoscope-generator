@@ -1,4 +1,5 @@
 import AmplitudeInitializerService from "./AmplitudeInitializer.service";
+import * as amplitude from '@amplitude/analytics-browser';
 
 type EventProps = Record<string, any>;
 
@@ -76,14 +77,7 @@ export default class AnalyticsService {
 
     /**
      * Registra um evento de analytics enriquecendo propriedades, enviando para a dataLayer
-     * e encaminhando o evento para o SDK Amplitude apropriado (browser ou node).
-     *
-     * Detecta o ambiente de execução:
-     *  - No navegador (typeof window !== "undefined"): importa dinamicamente
-     *    "@amplitude/analytics-browser" e invoca seu track(name, properties).
-     *  - Em servidor/node: importa dinamicamente
-     *    "@amplitude/analytics-node" e invoca seu track(payload) com
-     *    { event_type, event_properties }.
+     * e encaminhando o evento para o SDK Amplitude apropriado.
      */
     async trackEvent(name: string, props: EventProps = {}): Promise<void> {
         if (!this.enabled) return;
@@ -95,53 +89,9 @@ export default class AnalyticsService {
             if (!this.amplitudeInitializer.isInitialized()) {
                 await this.amplitudeInitializer.init();
             }
-
-            if (typeof window !== "undefined") {
-                // client-side: load browser SDK
-                const amplitudeBrowser = await import("@amplitude/analytics-browser");
-
-                await this.invokeTrack(amplitudeBrowser, true, name, enriched);
-            } else {
-                // server-side: load node SDK
-                const amplitudeNode = await import("@amplitude/analytics-node");
-
-                await this.invokeTrack(amplitudeNode, false, name, enriched);
-            }
+            amplitude.track(name, enriched);
         } catch (err) {
             console.error("trackEvent failed:", err);
-        }
-    }
-
-    /**
-     * Invoca track() do módulo importado, com tratamento unificado de ESM/CJS
-     */
-    private async invokeTrack(
-        dynamicImport: any,
-        isBrowser: boolean,
-        name: string,
-        enriched: EventProps
-    ): Promise<void> {
-        const trackFn = dynamicImport.track ?? dynamicImport.default?.track;
-
-        if (typeof trackFn !== "function") {
-            console.warn(
-                `${isBrowser ? "Browser" : "Node"} amplitude SDK track() not available`
-            );
-            return;
-        }
-
-        try {
-            if (isBrowser) {
-                trackFn(name, enriched);
-            } else {
-                const payload = {
-                    event_type: name,
-                    event_properties: enriched,
-                };
-                trackFn(payload);
-            }
-        } catch (err) {
-            console.error("Amplitude track() invocation failed:", err);
         }
     }
 

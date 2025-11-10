@@ -53,7 +53,7 @@ const Input = ({
             <input
                 id="date"
                 type={type}
-                {...register("bday", { required: true })}
+                {...register("birthday", { required: true })}
                 className="border-1 h-[56px] px-4 rounded-2xl text-dark w-full"
                 onInput={handleInput}
                 onKeyDown={handleKeyDown}
@@ -62,7 +62,7 @@ const Input = ({
                     handleChange(e.target.value);
                   }}
             />
-            {errors?.bday && (
+            {errors?.birthday && (
                 <p className="text-red-500 text-xs ml-2 mt-2">{errorMessage}</p>
             )}
         </div>

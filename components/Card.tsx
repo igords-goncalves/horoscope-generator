@@ -29,11 +29,11 @@ const Card = (): JSX.Element => {
     formState: { errors },
   } = useForm();
   
-  const bday = watch("bday");
+  const birthday = watch("birthday");
 
   useEffect(() => {
-    parseDate({ bday, setDate });
-  }, [bday]);
+    parseDate({ birthday: birthday, setDate });
+  }, [birthday]);
 
   async function fetchData() {
     try {

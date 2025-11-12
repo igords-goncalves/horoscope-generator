@@ -10,7 +10,7 @@ export const EVENTS = {
   DATE_SELECTED: {
     name: 'Date Selected',
     props: {
-      INPUT_METHOD: 'input_method', // 'date-picker' | 'manual'
+      INPUT_METHOD: 'input method', // 'date-picker' | 'manual'
       VALUE: 'value', // 'YYYY-MM-DD'
     },
   },
@@ -18,7 +18,7 @@ export const EVENTS = {
   GENERATE_CLICKED: {
     name: 'Generate Clicked',
     props: {
-      LATENCY_MS: 'latency_ms',
+      LATENCY_MS: 'latency ms',
     },
   },
 
@@ -26,7 +26,7 @@ export const EVENTS = {
     name: 'Sign Viewed',
     props: {
       SIGN: 'sign',
-      GENERATION_TIME_MS: 'generation_time_ms',
+      GENERATION_TIME_MS: 'generation time ms',
       SOURCE: 'source',
     },
   },
@@ -51,15 +51,15 @@ export const EVENTS = {
   IDENTIFY: {
     name: 'Identify',
     props: {
-      USER_ID: 'user_id',
+      USER_ID: 'user id',
       CONSENT: 'consent',
     },
   },
 
   EXPERIMENT_VIEW: {
-    name: 'exposure',
+    name: 'Exposure',
     props: {
-      EXPERIMENT_KEY: 'experiment_key',
+      EXPERIMENT_KEY: 'experiment key',
       VARIANT: 'variant',
     },
   },

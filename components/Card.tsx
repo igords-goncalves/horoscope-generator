@@ -10,90 +10,97 @@ import Input from "./common/Input";
 import ToggleTitle from "./ToggleTitle";
 import ToggleImage from "./ToggleImage";
 import AnalyticsService from "@/services/Analytics.service";
-import { EVENTS } from '@/constants/events';
+import { EVENTS } from "@/constants/events";
+import ShareButton from "./ShareButton";
 
 const Card = (): JSX.Element => {
-  const [date, setDate] = useState<number>();
-  const [sign, setSign] = useState<SignModel>();
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const [requestStart, setRequestStart] = useState<number>(0);
-  const [latencyMs, setLatencyMs] = useState<number>(0);
-  const { isLoading, setIsLoading } = useIsLoadingData();
+    const [date, setDate] = useState<number>();
+    const [sign, setSign] = useState<SignModel>();
+    const [isDisabled, setIsDisabled] = useState<boolean>(false);
+    const [requestStart, setRequestStart] = useState<number>(0);
+    const [latencyMs, setLatencyMs] = useState<number>(0);
+    const { isLoading, setIsLoading } = useIsLoadingData();
 
-  const horoscopeGenService = new HoroscopeGenService();
+    const horoscopeGenService = new HoroscopeGenService();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-  
-  const birthday = watch("birthday");
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm();
 
-  useEffect(() => {
-    parseDate({ birthday: birthday, setDate });
-  }, [birthday]);
+    const birthday = watch("birthday");
 
-  async function fetchData() {
-    try {
-      setRequestStart(Date.now());
-      setIsLoading(true);
-      setIsDisabled(true);
-      const response = await horoscopeGenService.get(`/api/sign/${date}`);
-      const data = await response.data;
-      setSign(data);
-    } catch (error: unknown) {
-      console.error(error);
-      throw new Error(error?.toString());
-    } finally {
-      setIsDisabled(false);
-      setIsLoading(false); // Set isLoading to false after receiving the response
+    useEffect(() => {
+        parseDate({ birthday: birthday, setDate });
+    }, [birthday]);
 
-      setLatencyMs(Date.now() - requestStart);
-    }
-  }
+    async function fetchData() {
+        try {
+            setRequestStart(Date.now());
+            setIsLoading(true);
+            setIsDisabled(true);
+            const response = await horoscopeGenService.get(`/api/sign/${date}`);
+            const data = await response.data;
+            setSign(data);
+        } catch (error: unknown) {
+            console.error(error);
+            throw new Error(error?.toString());
+        } finally {
+            setIsDisabled(false);
+            setIsLoading(false); // Set isLoading to false after receiving the response
 
-  const amplitude = AnalyticsService.getInstance(); 
-
-  const handleAmplitudeTracking = () => {
-    const eventProps = {
-      [EVENTS.GENERATE_CLICKED.props.LATENCY_MS]: latencyMs,
+            setLatencyMs(Date.now() - requestStart);
+        }
     }
 
-    amplitude.trackEvent(EVENTS.GENERATE_CLICKED.name, eventProps); 
-    // amplitude.trackEventKey("GENERATE_CLICKED", eventProps); 
-  }
+    const amplitude = AnalyticsService.getInstance();
 
-  return (
-    <section
-      data-testid="card-testid"
-      className="mr-5 ml-5 card flex flex-col items-center bg-card h-screen pb-10 w-full max-w-[470px] max-h-[544px] rounded-3xl px-5 sm:px-16 pt-8 gap-4"
-    >
-      <ToggleImage date={date} sign={sign} />
-      <ToggleTitle sign={sign} />
+    const handleAmplitudeTracking = () => {
+        const eventProps = {
+            [EVENTS.GENERATE_CLICKED.props.LATENCY_MS]: latencyMs,
+        };
 
-      <Form role="form" onSubmit={handleSubmit(fetchData)}>
-        <Input
-          type="date"
-          label="Birthday"
-          register={register}
-          errors={errors}
-          errorMessage="Enter your birthday!"
-        />
+        amplitude.trackEvent(EVENTS.GENERATE_CLICKED.name, eventProps);
+        // amplitude.trackEventKey("GENERATE_CLICKED", eventProps);
+    };
 
-        <Button
-          isDisabled={isDisabled}
-          isLoading={isLoading}
-          type="submit"
-          className="bg-primary w-full text-light h-[56px] text-2xl "
-          onClick={handleAmplitudeTracking}
+    return (
+        <section
+            data-testid="card-testid"
+            className="mr-5 ml-5 card flex flex-col items-center bg-card h-screen pb-10 w-full max-w-[470px] max-h-[544px] rounded-3xl px-5 sm:px-16 pt-8 gap-4"
         >
-          Generate
-        </Button>
-      </Form>
-    </section>
-  );
-}
+            <ToggleImage date={date} sign={sign} />
+            <ToggleTitle sign={sign} />
+            <ShareButton
+                date={date}
+                isLoading={isLoading}
+                isDisabled={isDisabled}
+                errors={errors}
+            />
+
+            <Form role="form" onSubmit={handleSubmit(fetchData)}>
+                <Input
+                    type="date"
+                    label="Birthday"
+                    register={register}
+                    errors={errors}
+                    errorMessage="Enter your birthday!"
+                />
+
+                <Button
+                    isDisabled={isDisabled}
+                    isLoading={isLoading}
+                    type="submit"
+                    className="bg-primary w-full text-light h-[56px] text-2xl "
+                    onClick={handleAmplitudeTracking}
+                >
+                    Generate
+                </Button>
+            </Form>
+        </section>
+    );
+};
 
 export default Card;

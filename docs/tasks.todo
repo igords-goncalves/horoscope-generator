@@ -1,2 +1,7 @@
-☐ Corrigir disparo do evento de input
-☐ Corrigir chamada para API
+Criar compartilhamento em redes sociais:
+    ✔ Criar componente ``ShareButton`` com botões para Facebook, Twitter, WhatsApp, LinkedIn e copiar link. @done(25-11-12 08:21)
+    ☐ Criar rota pública que devolve meta tags OG (SSR/SSG) por signo/ID.
+    ✔ Ajustar ShareButton para apontar para essa URL pública. @done(25-11-12 08:21)
+    ☐ Garantir og:image usa URL absoluta (publique imagens em /public ou gere e armazene).
+    ☐ Se o conteúdo for dinâmico por usuário, persistir e usar /share/{id}.
+    ☐ Opcional: gerar imagem OG dinâmica (Vercel OG ou geração de imagens).

@@ -10,9 +10,12 @@ Formato recomendado:
   - `property_name` type (descrição)
 
 Observações de contrato mínimo (boilerplate):
+
 - `timestamp` (string ISO-8601)
 - `env` ("dev" | "staging" | "prod") — usar `NEXT_PUBLIC_ENV`
 - `app_version` (semver)
+
+Essas são propriedades obrigatórias para todos os eventos.
 
 Padrões operacionais:
 - Ao emitir eventos que também devem ser consumidos pelo GTM, faça um push para `window.dataLayer` com `{ event: string, payload: object }`.

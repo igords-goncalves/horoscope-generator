@@ -32,6 +32,9 @@ export default class AmplitudeInitializerService {
     async init() {
         if (this.initialized) return;
 
+        // Um early return para evitar execução desnecessária
+        // seria !this.isClientEnvironment() && !this.clientKey
+
         /**
          * Só vai cair nessa condição se estiver no cliente side
          * Adiciona robustez para verificação de ambientes

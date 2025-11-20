@@ -51,7 +51,7 @@ export default class AnalyticsService {
     }
 
     /**
-     * Esse usado para enriquecer propriedades comuns a 
+     * Usado para enriquecer propriedades comuns a 
      * todos os eventos, serve passar propriedades extras em cada
      * trackEvent, identify, pageView ...
      * */

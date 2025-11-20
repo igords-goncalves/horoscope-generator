@@ -1,3 +1,4 @@
+import FlagEnvironment from '@/components/common/FlagEnvironment'
 import { Html, Head, Main, NextScript } from 'next/document'
 
 export default function Document() {
@@ -5,6 +6,7 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <body>
+        <FlagEnvironment />
         <Main />
         <NextScript />
       </body>

@@ -66,7 +66,7 @@ const ShareButton = ({ date, isLoading, isDisabled, errors }: ShareButtonProps) 
     };
 
     return (
-        <div className="flex gap-4">
+        <div className="flex gap-4 justify-around w-full">
             {SOCIALPLATFORMS.map((platform) => (
                 <a
                     key={platform.name}

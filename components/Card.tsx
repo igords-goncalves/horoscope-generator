@@ -12,6 +12,7 @@ import ToggleImage from "./ToggleImage";
 import AnalyticsService from "@/services/Analytics.service";
 import { EVENTS } from "@/constants/events";
 import ShareButton from "./ShareButton";
+import AmplitudeExperimentService from "@/services/AmplitudeExperiment.service";
 
 const Card = (): JSX.Element => {
     const [date, setDate] = useState<number>();
@@ -35,6 +36,15 @@ const Card = (): JSX.Element => {
     useEffect(() => {
         parseDate({ birthday: birthday, setDate });
     }, [birthday]);
+
+    // Forma mais básica de inicializar o experimento
+    useEffect(() => {
+        const experiment = AmplitudeExperimentService.getInstance("ab-test-experiment");
+        experiment.initialize().then(() => {
+            const variant = experiment.getVariant();
+            console.log("Experiment variant:", variant?.value);
+        });
+    }, [])
 
     async function fetchData() {
         try {
@@ -63,7 +73,6 @@ const Card = (): JSX.Element => {
         };
 
         amplitude.trackEvent(EVENTS.GENERATE_CLICKED.name, eventProps);
-        // amplitude.trackEventKey("GENERATE_CLICKED", eventProps);
     };
 
     return (
@@ -71,8 +80,8 @@ const Card = (): JSX.Element => {
             data-testid="card-testid"
             className="mr-5 ml-5 card flex flex-col items-center bg-card h-screen pb-10 w-full max-w-[470px] max-h-[544px] rounded-3xl px-5 sm:px-16 pt-8 gap-4"
         >
-            <ToggleImage date={date} sign={sign} />
-            <ToggleTitle sign={sign} />
+            <ToggleImage date={date} image={sign?.image} />
+            <ToggleTitle title={sign?.title} profile={sign?.profile} />
             <ShareButton
                 date={date}
                 isLoading={isLoading}

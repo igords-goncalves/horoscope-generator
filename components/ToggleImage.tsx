@@ -1,15 +1,15 @@
 import Image from "next/image";
-import SignModel from "@/models/Sign.model";
 import vercel from "../public/vercel.svg";
 import { useIsLoadingData } from "@/hooks/useIsLoadingData";
 import { Spinner } from "@nextui-org/react";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 type ToggleImageProps = {
   date?: number;
-  sign?: SignModel;
+  image?: string | StaticImport;
 };
 
-const ToggleImage = ({ date, sign }: ToggleImageProps) => {
+const ToggleImage = ({ date, image }: ToggleImageProps) => {
   const { isLoading } = useIsLoadingData();
 
   function ImageSign() {
@@ -17,7 +17,7 @@ const ToggleImage = ({ date, sign }: ToggleImageProps) => {
       <Spinner size="lg" label="Loading sign" color="secondary" />
     ) : (
       <Image
-        src={sign?.image as string}
+        src={image!}
         alt="Sign Image"
         width={0}
         height={0}
@@ -30,7 +30,7 @@ const ToggleImage = ({ date, sign }: ToggleImageProps) => {
 
   return (
     <div className="image flex items-center justify-center w-full max-w-[150px] max-h-[150px] h-full">
-      {date && sign ? <ImageSign /> : <Image src={vercel} alt="Vercel logo" />}
+      {date && image ? <ImageSign /> : <Image src={vercel} alt="Vercel logo" />}
     </div>
   );
 };

@@ -26,6 +26,10 @@ const Input = ({
         handleAmplitudeTracking
     );
 
+    // Utilizar um debaounced function 
+    // aqui se necessário para otimizar
+    // o numero de disparos de eventos 
+    // de mudança de input
     async function handleAmplitudeTracking(
         value: string,
         method?: "date-picker" | "manual"
@@ -42,8 +46,6 @@ const Input = ({
 
         amplitude.trackEvent(EVENTS.DATE_SELECTED.name, eventProps);
     }
-
-    // Mantenha depois da definição de handleAmplitudeTracking
 
     return (
         <div className="flex flex-col items-start w-full">

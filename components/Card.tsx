@@ -12,7 +12,7 @@ import ToggleImage from "./ToggleImage";
 import AnalyticsService from "@/services/Analytics.service";
 import { EVENTS } from "@/constants/events";
 import ShareButton from "./ShareButton";
-import AmplitudeExperimentService from "@/services/AmplitudeExperiment.service";
+import { useExperimentContext } from "@/hooks/useExperimentContext";
 
 const Card = (): JSX.Element => {
     const [date, setDate] = useState<number>();
@@ -21,6 +21,8 @@ const Card = (): JSX.Element => {
     const [requestStart, setRequestStart] = useState<number>(0);
     const [latencyMs, setLatencyMs] = useState<number>(0);
     const { isLoading, setIsLoading } = useIsLoadingData();
+
+    const { variant } = useExperimentContext();
 
     const horoscopeGenService = new HoroscopeGenService();
 
@@ -37,15 +39,6 @@ const Card = (): JSX.Element => {
         parseDate({ birthday: birthday, setDate });
     }, [birthday]);
 
-    // Forma mais básica de inicializar o experimento
-    useEffect(() => {
-        const experiment = AmplitudeExperimentService.getInstance("ab-test-experiment");
-        experiment.initialize().then(() => {
-            const variant = experiment.getVariant();
-            console.log("Experiment variant:", variant?.value);
-        });
-    }, [])
-
     async function fetchData() {
         try {
             setRequestStart(Date.now());
@@ -59,8 +52,7 @@ const Card = (): JSX.Element => {
             throw new Error(error?.toString());
         } finally {
             setIsDisabled(false);
-            setIsLoading(false); // Set isLoading to false after receiving the response
-
+            setIsLoading(false);
             setLatencyMs(Date.now() - requestStart);
         }
     }
@@ -71,7 +63,6 @@ const Card = (): JSX.Element => {
         const eventProps = {
             [EVENTS.GENERATE_CLICKED.props.LATENCY_MS]: latencyMs,
         };
-
         amplitude.trackEvent(EVENTS.GENERATE_CLICKED.name, eventProps);
     };
 
@@ -105,7 +96,12 @@ const Card = (): JSX.Element => {
                     className="bg-primary w-full text-light h-[56px] text-2xl "
                     onClick={handleAmplitudeTracking}
                 >
-                    Generate
+                    {/* {variant?.value === "treatment"
+                        ? "Discover Now!"
+                        : "Generate Horoscope"} */}
+                    {variant?.value === "treatment"
+                        ? variant?.payload?.label
+                        : "Generate"}
                 </Button>
             </Form>
         </section>

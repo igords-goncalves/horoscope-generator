@@ -1,4 +1,4 @@
-import { Experiment, ExperimentClient } from "@amplitude/experiment-js-client";
+import { Experiment, ExperimentClient, LogLevel } from "@amplitude/experiment-js-client";
 
 export default class AmplitudeExperimentService {
     private static instance: AmplitudeExperimentService;
@@ -27,7 +27,10 @@ export default class AmplitudeExperimentService {
             return;
         }
         this.experiment = Experiment.initializeWithAmplitudeAnalytics(
-            this.deploymentKey,
+            this.deploymentKey, {
+                // É possível ajustar o nível de log conforme necessário
+                logLevel: LogLevel.Disable,
+            }
         );
         // Aqui acontece o assignment automático do usuário
         await this.experiment.fetch();
@@ -40,8 +43,12 @@ export default class AmplitudeExperimentService {
             );
             return null;
         }
-        // Aqui acontece o exposure automático ao buscar a variante
+        // Aqui acontece  exposure automático ao buscar a variante
         const variant = this.experiment.variant(this.featureFlag!);
+
+        if(variant.payload === undefined) {
+            console.info("You may want to set a payload in Amplitude Experiment dashboard.")
+        }
 
         return {
             key: variant.key,
@@ -51,13 +58,6 @@ export default class AmplitudeExperimentService {
         }
     }
 
-    assignUserToExperiment() {
-        const variant = this.getVariant();
-        if (variant || variant!.key !== "off") return;
-
-        // Se variant é off significa que o teste está desativado
-        // logo não faz sentido atribuir o usuário
-    }
-
+    // Método para rastrear manualmente o evento de exposição, se necessário
     trackExposureEvent() {}
 }
